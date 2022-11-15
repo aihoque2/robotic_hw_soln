@@ -20,6 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            "service = machina_soln.sensor_service:main",
+            "client = machina_soln.sensor_client:main"
         ],
     },
 )

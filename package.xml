@@ -3,7 +3,7 @@
 <package format="3">
   <name>machina_soln</name>
   <version>0.0.0</version>
-  <description>soluotion to robotic_hw</description>
+  <description>solution to robotic_hw</description>
   <maintainer email="aihoque2@illinois.edu">ahoque245</maintainer>
   <license>Apache License 2.0</license>
 
