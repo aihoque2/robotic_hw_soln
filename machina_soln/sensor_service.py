@@ -10,7 +10,7 @@ from srv import RequestSensorData
 
 class SensorPublisher(Node):
     def __int__(self):
-        super().__init__("sensor publishers")
+        super().__init__("sensor_data_server")
         self.sock1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock3 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -21,12 +21,6 @@ class SensorPublisher(Node):
         self.sock3.connect(('127.0.0.3', 10002))
         
         self.number_of_samples = 10
-
-        self.pub1 = self.create_publisher(Float64MultiArray, "sensor1", 10)
-        self.pub2 = self.create_publisher(Float64MultiArray, "sensor2", 10)
-        self.pub3 = self.create_publisher(Float64MultiArray, "sensor3", 10)
-
-        self.timer = self.create_timer()
 
 
     def close(self):
@@ -39,10 +33,6 @@ class SensorPublisher(Node):
         """
         how the sensor publishers publish the message
         """
-        #ROS messages
-        msg1 = Float64MultiArray()
-        msg2 = Float64MultiArray()
-        msg3 = Float64MultiArray()
 
         #send the socket request message
         message_string = str(self.number_of_samples)
@@ -58,10 +48,6 @@ class SensorPublisher(Node):
         data1 = np.frombuffer(byte_data1)
         data2 = np.frombuffer(byte_data2)
         data3 = np.frombuffer(byte_data3)
-
-        msg1.data = data1.tolist()
-        msg2.data = data2.tolist()
-        msg3.data = data3.tolist()
 
 
 def main(args=None):

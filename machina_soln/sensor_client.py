@@ -5,10 +5,13 @@ from rclpy.node import Node
 from std_msgs.msg import Float64MultiArray
 from machina_interfaces import RequestSensorData
 
-class SensorClient(Node):
+class SensorClientPub(Node):
+    """
+    it's a client and a publisher
+    """
     def __init__(self):
 
-        self.cli = self.create_client()
+        self.cli = self.create_client(RequestSensorData, 'sensor_data_request')
 
         self.sub1 = self.create_subscription()
         self.pub1 = self.create_publisher(Float64MultiArray, "sensor1", 10)
@@ -16,7 +19,6 @@ class SensorClient(Node):
         self.pub3 = self.create_publisher(Float64MultiArray, "sensor3", 10)
 
         self.req = RequestSensorData.Request()
-        self.response = RequestSensorData
 
     def request_data(self, sensor_id, data_size):
         """
@@ -37,15 +39,26 @@ class SensorClient(Node):
         msg2 = Float64MultiArray()
         msg3 = Float64MultiArray()
 
-        #send the socket request message
-        byte_data1 = self.sock1.recv(10000)
-        byte_data2 = self.sock2.recv(10000)
-        byte_data3 = self.sock3.recv(10000)
+        response1 = self.request_data(self, 1, 500)
+        response2 = self.request_data(self, 2, 500)
+        response3 = self.request_data(self, 3, 500)
 
-        data1 = np.frombuffer(byte_data1)
-        data2 = np.frombuffer(byte_data2)
-        data3 = np.frombuffer(byte_data3)
+        msg1.data = response1.data
+        msg2.data = response2.data
+        msg3.data = response3.data
 
-        msg1.data = data1.tolist()
-        msg2.data = data2.tolist()
-        msg3.data = data3.tolist()
+        self.pub1.publish(msg1)
+        self.pub2.publish(msg2)
+        self.pub3.publish(msg3)
+
+def main(args=None):
+    rclpy.init(args=args)
+
+    client_pub = SensorClientPub()
+    rclpy.spin(client_pub)
+
+    client_pub.destrroy_node()
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
