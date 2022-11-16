@@ -41,7 +41,7 @@ class SensorService(Node):
 
         else:
             self.get_logger().error("sensor_id not found. please check again")
-        print("before response")
+        print("before response", len(response.data))
         return response
 
     def close(self):
