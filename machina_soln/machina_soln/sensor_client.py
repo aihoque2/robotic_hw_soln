@@ -34,11 +34,11 @@ class SensorClientPub(Node):
         #return self.cli.call(self.req)
 
         ## async call
-         self.future = self.cli.call_async(self.req)
-         print("client sent request ", self.req.sensor_id)
-         rclpy.spin_until_future_complete(self, self.future)
-         print("request completed")
-         return self.future.result()
+        self.future = self.cli.call_async(self.req)
+        print("client sent request ", self.req.sensor_id)
+        rclpy.spin_until_future_complete(self, self.future)
+        print("request completed")
+        return self.future.result()
 
     def timer_callback(self):
         """
