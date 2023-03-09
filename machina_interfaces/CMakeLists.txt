@@ -38,6 +38,6 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/RequestSensorData.srv"
 # Add packages that above messages depend on, in this case geometry_msgs for Sphere.msg
 )
-ament_export_dependencies(rosidl_default_runtime)
+ament_export_dependencies(rosidl_default_runtime) # ADDED 03/09 TO TEST SOMETHING OUT
 
 ament_package()
